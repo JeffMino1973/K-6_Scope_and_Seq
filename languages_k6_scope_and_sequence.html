@@ -1,0 +1,744 @@
+﻿<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script>```html
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Languages K-6 Scope and Sequence
+  </title>
+  
+  
+  <style type="text/css">@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}</style>
+  <script src="../Documents/My%20Web%20Sites/langua1.dat"></script>
+  <style>
+   body {
+     font-family: 'Inter', sans-serif;
+     background-color: #f3f4f6; /* sep-light */
+   }
+   .table-container {
+     padding: 2rem;
+     max-width: 1200px;
+     margin: 0 auto;
+     background-color: #ffffff; /* sep-white */
+   }
+   .table-cell {
+     padding: 1.5rem;
+     min-height: 100px;
+     border-bottom: 1px solid #e2e8f0;
+     cursor: pointer;
+     transition: background-color 0.2s, color 0.2s;
+     display: flex;
+     align-items: flex-start;
+     justify-content: flex-start;
+     text-align: left;
+     background-color: #f3f4f6; /* sep-light */
+   }
+   .table-cell:hover {
+     background-color: #f97316; /* sep-orange */
+     color: #ffffff;
+   }
+   .table-cell:hover .unit-title, .table-cell:hover .unit-description {
+     color: #ffffff;
+   }
+   .table-cell:hover .unit-outcomes {
+     color: #1e3a8a; /* sep-blue */
+   }
+   .rotated-text {
+     writing-mode: vertical-lr;
+     text-orientation: mixed;
+     transform: rotate(180deg);
+     white-space: nowrap;
+   }
+   .select-container {
+     padding: 1rem 2rem;
+     max-width: 1200px;
+     margin: 0 auto;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+   .select-button, .print-button {
+     background-color: #1e3a8a; /* sep-blue */
+     color: #ffffff;
+     padding: 12px 24px;
+     border-radius: 9999px;
+     font-weight: 500;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+     margin: 0 8px;
+     border: none;
+   }
+   .select-button.active {
+     background-color: #059669; /* sep-green */
+     box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+   }
+   .print-button, .btn-light {
+     background-color: #059669; /* sep-green */
+   }
+   .print-button:hover, .btn-light:hover {
+     background-color: #047857; /* Darker sep-green */
+   }
+   .week-header {
+     font-size: 0.75rem;
+     padding: 0.5rem;
+   }
+   @media print {
+     body {
+       background-color: #ffffff;
+     }
+     .select-container, .print-button, #unit-details, .p-4.text-sm.font-semibold, .rotated-text {
+       display: none;
+     }
+     .table-container {
+       padding: 0;
+       box-shadow: none;
+       background-color: #ffffff;
+     }
+     .table-cell {
+       border-bottom: 1px solid #000;
+       padding: 0.5rem;
+       min-height: auto;
+       cursor: default;
+       background-color: #ffffff;
+     }
+     .unit-title {
+       font-size: 1.1rem;
+       color: #1e3a8a; /* sep-blue */
+     }
+     .unit-outcomes {
+       font-size: 0.7rem;
+       color: #1e3a8a; /* sep-blue */
+     }
+     .unit-description {
+       font-size: 0.8rem;
+       color: #000000;
+     }
+     #schedule-header {
+       font-size: 0.9rem;
+       color: #1e3a8a; /* sep-blue */
+     }
+     .week-header {
+       font-size: 0.6rem;
+       padding: 0.3rem;
+     }
+   }
+  </style>
+  
+  
+  <style type="text/css">@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}</style>
+  <style>
+   :root {
+     --sep-blue: #1e3a8a;
+     --sep-green: #059669;
+     --sep-orange: #f97316;
+     --sep-light: #f3f4f6;
+     --sep-white: #ffffff;
+   }
+   * { box-sizing: border-box; }
+   body { background: var(--sep-light); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+   .sep-header {
+     display: flex;
+     align-items: center;
+     gap: 0.75rem;
+     background: var(--sep-blue);
+     color: var(--sep-white);
+     padding: 0.85rem 1.25rem;
+     border-bottom: 4px solid #0b1a3a;
+     position: sticky;
+     top: 0;
+     z-index: 1000;
+   }
+   .sep-header img {
+     height: 40px;
+     width: auto;
+     border-radius: 6px;
+     background: var(--sep-white);
+     padding: 3px;
+   }
+   .sep-header .title {
+     font-weight: 700;
+     letter-spacing: 0.2px;
+     font-size: 1.05rem;
+   }
+   .sep-container {
+     max-width: 1100px;
+     margin: 1.25rem auto;
+     padding: 1rem;
+   }
+   .sep-card {
+     background: var(--sep-white);
+     border: 1px solid #e5e7eb;
+     border-radius: 14px;
+     box-shadow: 0 6px 18px rgba(2, 22, 58, 0.06);
+   }
+   .sep-btn {
+     background: var(--sep-blue);
+     color: var(--sep-white);
+     border: none;
+     border-radius: 10px;
+     padding: 0.6rem 1rem;
+     cursor: pointer;
+     font-weight: 600;
+   }
+   .sep-btn:hover {
+     background: #0b1a3a;
+   }
+   .sep-btn--success {
+     background: var(--sep-green);
+   }
+   .sep-btn--success:hover {
+     background: #047857;
+   }
+   @media print {
+     .sep-header, .sep-nav, .sep-actions { display: none !important; }
+     body { background: var(--sep-white) !important; }
+   }
+  </style>
+  <link href="bootstrap.min.css" rel="stylesheet"/>
+  <link href="all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100 p-4 sm:p-8">
+  <div class="sep-header">
+   <div class="container">
+    <div class="row align-items-center">
+     <div class="col-md-8">
+      <h1 class="mb-0 title">
+       <i class="fas fa-file-alt me-3"></i>
+       Languages K-6 Scope and Sequence
+      </h1>
+      <p class="mb-0 mt-2">
+       SEP administrative and management tool
+      </p>
+     </div>
+     <div class="col-md-4 text-end">
+      <button class="btn btn-light btn-sm me-2 no-print sep-btn--success" onclick="window.print()">
+       <i class="fas fa-print me-1"></i>
+       Print
+      </button>
+      <button class="btn btn-light btn-sm no-print sep-btn--success" onclick="saveData()">
+       <i class="fas fa-save me-1"></i>
+       Save
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="select-container">
+   <button class="select-button active" data-stage="es1">Early Stage 1</button>
+   <button class="select-button" data-stage="s1">Stage 1</button>
+   <button class="select-button" data-stage="s2">Stage 2</button>
+   <button class="select-button" data-stage="s3">Stage 3</button>
+   <button class="print-button hidden sep-btn--success" id="print-button">
+    <i class="fas fa-print me-1"></i>
+    Print Schedule
+   </button>
+  </div>
+  <div class="table-container sep-card" id="schedule">
+   <div class="grid grid-cols-11" id="schedule-header">
+    <div class="col-span-1 border-r border-b border-gray-200 p-4 text-sm font-semibold flex items-center justify-center" style="color: #1e3a8a;">
+     Term
+    </div>
+    <div class="col-span-10 grid grid-cols-10 border-b border-gray-200">
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 1</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 2</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 3</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 4</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 5</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 6</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 7</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 8</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 9</div>
+     <div class="col-span-1 week-header flex items-center justify-center" style="color: #1e3a8a;">Week 10</div>
+    </div>
+   </div>
+   <div id="schedule-body"></div>
+  </div>
+  <div class="mt-8 hidden" id="unit-details">
+   <div class="sep-card p-6">
+    <h2 class="text-2xl font-bold mb-2" id="unit-title" style="color: #1e3a8a;"></h2>
+    <p class="text-gray-600 mb-6" id="unit-subtitle"></p>
+    <div class="border-t pt-4">
+     <div class="flex justify-between items-center cursor-pointer mb-4" id="outcomes-header">
+      <h3 class="text-lg font-semibold" style="color: #1e3a8a;">Outcomes</h3>
+      <svg class="w-5 h-5 text-gray-600 transition-transform" fill="none" id="outcomes-arrow" stroke="currentColor" viewbox="0 0 24 24">
+       <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+     </div>
+     <div class="hidden" id="outcomes-content">
+      <ul class="list-disc pl-5 space-y-2" id="outcomes-list"></ul>
+     </div>
+    </div>
+    <div class="border-t pt-4">
+     <div class="flex justify-between items-center cursor-pointer mb-4" id="lesson-header">
+      <h3 class="text-lg font-semibold" style="color: #1e3a8a;">Lesson Resources</h3>
+      <svg class="w-5 h-5 text-gray-600 transition-transform" fill="none" id="lesson-arrow" stroke="currentColor" viewbox="0 0 24 24">
+       <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+     </div>
+     <div class="hidden" id="lesson-content">
+      <ul class="list-disc pl-5 space-y-2" id="lesson-list"></ul>
+     </div>
+    </div>
+    <div class="border-t pt-4">
+     <div class="flex justify-between items-center cursor-pointer mb-4" id="curriculum-header">
+      <h3 class="text-lg font-semibold" style="color: #1e3a8a;">Curriculum Resources</h3>
+      <svg class="w-5 h-5 text-gray-600 transition-transform" fill="none" id="curriculum-arrow" stroke="currentColor" viewbox="0 0 24 24">
+       <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+     </div>
+     <div class="hidden" id="curriculum-content">
+      <ul class="list-disc pl-5 space-y-2" id="curriculum-list"></ul>
+     </div>
+    </div>
+    <div class="border-t pt-4">
+     <div class="flex justify-between items-center cursor-pointer mb-4" id="support-header">
+      <h3 class="text-lg font-semibold" style="color: #1e3a8a;">Support Resources</h3>
+      <svg class="w-5 h-5 text-gray-600 transition-transform" fill="none" id="support-arrow" stroke="currentColor" viewbox="0 0 24 24">
+       <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+     </div>
+     <div class="hidden" id="support-content">
+      <ul class="list-disc pl-5 space-y-2" id="support-list"></ul>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+   const stageButtons = document.querySelectorAll('.select-button');
+   const scheduleBody = document.getElementById('schedule-body');
+   const printButton = document.getElementById('print-button');
+   const unitDetails = document.getElementById('unit-details');
+   const unitTitle = document.getElementById('unit-title');
+   const unitSubtitle = document.getElementById('unit-subtitle');
+   const outcomesContent = document.getElementById('outcomes-content');
+   const lessonContent = document.getElementById('lesson-content');
+   const curriculumContent = document.getElementById('curriculum-content');
+   const supportContent = document.getElementById('support-content');
+
+   const scheduleData = {
+     es1: {
+       term1: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Phonological Awareness', weeks: 2 },
+         { name: 'Print Conventions', weeks: 2 },
+         { name: 'Phonic Knowledge', weeks: 2 }
+       ],
+       term2: [
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 },
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting', weeks: 2 }
+       ],
+       term3: [
+         { name: 'Understanding and Responding to Literature', weeks: 10 }
+       ],
+       term4: [
+         { name: 'Review and Consolidation', weeks: 10 }
+       ]
+     },
+     s1: {
+       term1: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Phonic Knowledge', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 }
+       ],
+       term2: [
+         { name: 'Creating Written Texts', weeks: 2 },
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 }
+       ],
+       term3: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Phonic Knowledge', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 }
+       ],
+       term4: [
+         { name: 'Creating Written Texts', weeks: 2 },
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 }
+       ],
+       term5: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Phonic Knowledge', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 }
+       ],
+       term6: [
+         { name: 'Creating Written Texts', weeks: 2 },
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 }
+       ],
+       term7: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Phonic Knowledge', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 }
+       ],
+       term8: [
+         { name: 'Creating Written Texts', weeks: 2 },
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 }
+       ]
+     },
+     s2: {
+       term1: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term2: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ],
+       term3: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term4: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ],
+       term5: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term6: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ],
+       term7: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term8: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ]
+     },
+     s3: {
+       term1: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term2: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ],
+       term3: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term4: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ],
+       term5: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term6: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ],
+       term7: [
+         { name: 'Oral Language and Communication', weeks: 2 },
+         { name: 'Vocabulary', weeks: 2 },
+         { name: 'Reading Fluency', weeks: 2 },
+         { name: 'Reading Comprehension', weeks: 2 },
+         { name: 'Creating Written Texts', weeks: 2 }
+       ],
+       term8: [
+         { name: 'Spelling', weeks: 2 },
+         { name: 'Handwriting and Digital Transcription', weeks: 2 },
+         { name: 'Understanding and Responding to Literature', weeks: 2 },
+         { name: 'Review', weeks: 2 },
+         { name: 'Advanced Topics', weeks: 2 }
+       ]
+     }
+   };
+
+   const unitDetailsData = {
+     'Oral Language and Communication': {
+       subtitle: 'Communicates effectively using interpersonal conventions and language',
+       outcomes: ['ENE-OLC-01', 'EN1-OLC-01', 'EN2-OLC-01', 'EN3-OLC-01'],
+       lesson: ['Interacting with peers', 'Presenting ideas'],
+       curriculum: ['English'],
+       support: ['Discussion prompts', 'Role-play activities']
+     },
+     'Vocabulary': {
+       subtitle: 'Understands and uses Tier 1, 2, and 3 vocabulary',
+       outcomes: ['ENE-VOCAB-01', 'EN1-VOCAB-01', 'EN2-VOCAB-01', 'EN3-VOCAB-01'],
+       lesson: ['Building word knowledge', 'Morphological analysis'],
+       curriculum: ['English'],
+       support: ['Word walls', 'Vocabulary journals']
+     },
+     'default': {
+       subtitle: 'General English Unit',
+       outcomes: ['ENE-OLC-01'],
+       lesson: ['General lesson plan'],
+       curriculum: ['English'],
+       support: ['General support material']
+     }
+   };
+
+   function toggleSection(headerId, contentId, arrowId) {
+     const header = document.getElementById(headerId);
+     const content = document.getElementById(contentId);
+     const arrow = document.getElementById(arrowId);
+     header.addEventListener('click', () => {
+       content.classList.toggle('hidden');
+       arrow.classList.toggle('rotate-90');
+     });
+   }
+
+   function renderResources(container, items) {
+     const list = container.querySelector('ul');
+     list.innerHTML = '';
+     items.forEach(item => {
+       const li = document.createElement('li');
+       li.textContent = item;
+       li.style.color = '#000000';
+       list.appendChild(li);
+     });
+   }
+
+   function renderSchedule(stage) {
+     scheduleBody.innerHTML = '';
+     const terms = stage === 'es1' ? ['term1', 'term2', 'term3', 'term4'] : ['term1', 'term2', 'term3', 'term4', 'term5', 'term6', 'term7', 'term8'];
+     terms.forEach((termKey, index) => {
+       const term = scheduleData[stage][termKey] || [];
+       const termRow = document.createElement('div');
+       termRow.className = 'grid grid-cols-11 border-t border-l border-gray-200';
+       const termLabel = document.createElement('div');
+       termLabel.className = 'col-span-1 border-r border-b border-gray-200 p-4 text-sm font-semibold flex flex-col items-center justify-center';
+       termLabel.innerHTML = `<span class="rotated-text" style="color: #1e3a8a;">Term ${index + 1}</span>`;
+       termRow.appendChild(termLabel);
+       const unitsContainer = document.createElement('div');
+       unitsContainer.className = 'col-span-10 grid grid-cols-10 border-b border-gray-200';
+       let currentWeek = 1;
+       term.forEach(unit => {
+         const unitCell = document.createElement('div');
+         unitCell.className = `col-span-${unit.weeks} table-cell border-r border-gray-200 relative`;
+         unitCell.innerHTML = `
+           <div class="absolute top-0 left-0 right-0 bottom-0 flex flex-col justify-center p-2">
+             <span class="unit-title font-medium" style="color: #1e3a8a;">${unit.name}</span>
+             <span class="unit-description text-xs text-gray-600"></span>
+             <span class="unit-outcomes text-xs" style="color: #1e3a8a;">Outcomes: ${unitDetailsData[unit.name]?.outcomes?.join(', ') || 'ENE-OLC-01'}</span>
+           </div>
+         `;
+         unitCell.addEventListener('click', () => showUnitDetails(unit.name));
+         unitsContainer.appendChild(unitCell);
+         currentWeek += unit.weeks;
+       });
+       const remainingWeeks = 10 - (currentWeek - 1);
+       if (remainingWeeks > 0) {
+         const emptyCell = document.createElement('div');
+         emptyCell.className = `col-span-${remainingWeeks} py-4 px-3 border-r border-b border-gray-200`;
+         emptyCell.style.backgroundColor = '#f3f4f6';
+         unitsContainer.appendChild(emptyCell);
+       }
+       termRow.appendChild(unitsContainer);
+       scheduleBody.appendChild(termRow);
+     });
+   }
+
+   function showUnitDetails(unitName) {
+     const data = unitDetailsData[unitName] || unitDetailsData['default'];
+     unitTitle.textContent = unitName;
+     unitSubtitle.textContent = data.subtitle;
+     renderResources(outcomesContent, data.outcomes || ['No outcomes specified']);
+     renderResources(lessonContent, data.lesson || ['No lesson resources specified']);
+     renderResources(curriculumContent, data.curriculum || ['No curriculum resources specified']);
+     renderResources(supportContent, data.support || ['No support resources specified']);
+     unitDetails.classList.remove('hidden');
+     unitDetails.scrollIntoView({ behavior: 'smooth' });
+   }
+
+   function printSchedule() {
+     window.print();
+   }
+
+   stageButtons.forEach(button => {
+     button.addEventListener('click', () => {
+       stageButtons.forEach(btn => btn.classList.remove('active'));
+       button.classList.add('active');
+       renderSchedule(button.dataset.stage);
+       printButton.classList.remove('hidden');
+     });
+   });
+
+   printButton.addEventListener('click', printSchedule);
+
+   document.addEventListener('DOMContentLoaded', () => {
+     renderSchedule('es1');
+     printButton.classList.remove('hidden');
+     toggleSection('outcomes-header', 'outcomes-content', 'outcomes-arrow');
+     toggleSection('lesson-header', 'lesson-content', 'lesson-arrow');
+     toggleSection('curriculum-header', 'curriculum-content', 'curriculum-arrow');
+     toggleSection('support-header', 'support-content', 'support-arrow');
+   });
+  </script>
+  <script>
+   (function(){
+     if (window.__sepResourcesPatched__) return;
+     window.__sepResourcesPatched__ = true;
+     const storageKey = "resources-" + (document.title || location.pathname).replace(/\s+/g, "_");
+     function qs(id){ return document.getElementById(id); }
+     function addResourceToList(name, url){
+       const resourceList = qs("resource-list");
+       if(!resourceList) return;
+       const li = document.createElement("li");
+       const a = document.createElement("a");
+       a.href = url;
+       a.download = name;
+       a.textContent = name;
+       a.className = "text-[#1e3a8a] hover:underline";
+       li.appendChild(a);
+       resourceList.appendChild(li);
+     }
+     function saveResource(name, url){
+       const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+       saved.push({name, url});
+       localStorage.setItem(storageKey, JSON.stringify(saved));
+     }
+     function loadResources(){
+       const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+       saved.forEach(r => addResourceToList(r.name, r.url));
+     }
+     document.addEventListener("DOMContentLoaded", function(){
+       const outcomesHeader = document.getElementById("outcomes-header");
+       const outcomesContent = document.getElementById("outcomes-content");
+       const outcomesArrow = document.getElementById("outcomes-arrow");
+       if(outcomesHeader && outcomesContent && outcomesArrow){
+         outcomesHeader.addEventListener("click", ()=>{
+           outcomesContent.classList.toggle("hidden");
+           outcomesArrow.classList.toggle("rotate-90");
+         });
+       }
+       const resourcesHeader = document.getElementById("resources-header");
+       const resourcesContent = document.getElementById("resources-content");
+       const resourcesArrow = document.getElementById("resources-arrow");
+       if(resourcesHeader && resourcesContent && resourcesArrow){
+         resourcesHeader.addEventListener("click", ()=>{
+           resourcesContent.classList.toggle("hidden");
+           resourcesArrow.classList.toggle("rotate-90");
+         });
+       }
+       const addBtn = document.getElementById("add-resource");
+       const fileInput = document.getElementById("resource-file");
+       if(addBtn && fileInput){
+         addBtn.addEventListener("click", ()=> fileInput.click());
+         fileInput.addEventListener("change", ()=>{
+           const file = fileInput.files && fileInput.files[0];
+           if(!file) return;
+           const url = URL.createObjectURL(file);
+           addResourceToList(file.name, url);
+           saveResource(file.name, url);
+           fileInput.value = "";
+         });
+       }
+       loadResources();
+     });
+   })();
+  </script>
+ </body>
+</html>
+```

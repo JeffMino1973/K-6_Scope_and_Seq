@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics K-6 Scope and Sequence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .table-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .table-cell {
+            padding: 1rem;
+            min-height: 80px;
+            border-bottom: 1px solid #CBDEFD;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            text-align: left;
+        }
+        .table-cell:hover {
+            background-color: #CBDEFD;
+            color: #000000;
+        }
+        .table-cell:hover .unit-title, .table-cell:hover .unit-description {
+            color: #000000;
+        }
+        .table-cell:hover .unit-outcomes {
+            color: #002664;
+        }
+        .rotated-text {
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            white-space: nowrap;
+        }
+        .select-container {
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .select-button, .print-button {
+            background-color: #146CFD;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin: 0 8px;
+            border: none;
+        }
+        .select-button.active {
+            background-color: #002664;
+            box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+        }
+        .tab-button {
+            background-color: #146CFD;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin: 0 8px;
+            border: none;
+        }
+        .tab-button.active {
+            background-color: #002664;
+            box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+        }
+        @media print {
+            body {
+                background-color: #ffffff;
+            }
+            .select-container, .print-button, #unit-details, .p-4.text-sm.font-semibold, .rotated-text, .tab-buttons {
+                display: none;
+            }
+            .table-container {
+                padding: 0;
+                box-shadow: none;
+            }
+            .table-cell {
+                border-bottom: 1px solid #000;
+                padding: 0.5rem;
+                min-height: auto;
+                cursor: default;
+            }
+            .unit-title {
+                font-size: 1.1rem;
+            }
+            .unit-outcomes {
+                font-size: 0.7rem;
+            }
+            .unit-description {
+                font-size: 0.8rem;
+            }
+            #schedule-header {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-8">
+
+    <div class="text-center text-3xl sm:text-4xl font-extrabold text-[#002664] mt-8 mb-4">Mathematics K-6 Scope and Sequence</div>
+    <div class="select-container tab-buttons">
+        <div class="flex flex-wrap justify-center space-x-2 sm:space-x-4">
+            <button class="tab-button active" data-tab="k-2">K-2 Units</button>
+            <button class="tab-button" data-tab="3-6">Years 3-6 Units</button>
+        </div>
+    </div>
+    <div class="select-container">
+        <div class="flex flex-wrap justify-center space-x-2 sm:space-x-4" id="year-buttons">
+            <!-- Year buttons will be injected here -->
+        </div>
+        <button class="print-button hidden" id="print-button">Print PDF</button>
+    </div>
+
+    <div class="table-container bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+        <div class="p-4 text-sm font-semibold text-gray-600">
+            *Click on the unit name to access available resources
+        </div>
+        <div id="schedule-header" class="grid grid-cols-11 text-center text-sm font-medium bg-[#002664] text-white border-b-2 border-white">
+            <!-- Header Row -->
+            <div class="col-span-1 border-r border-white"></div>
+            <div class="col-span-1 py-4">Week 1</div>
+            <div class="col-span-1 py-4">Week 2</div>
+            <div class="col-span-1 py-4">Week 3</div>
+            <div class="col-span-1 py-4">Week 4</div>
+            <div class="col-span-1 py-4">Week 5</div>
+            <div class="col-span-1 py-4">Week 6</div>
+            <div class="col-span-1 py-4">Week 7</div>
+            <div class="col-span-1 py-4">Week 8</div>
+            <div class="col-span-2 py-4 border-l border-white">Weeks 9 & 10</div>
+        </div>
+
+        <!-- Table Body Rows will be dynamically injected here -->
+        <div id="schedule-body" class="text-sm"></div>
+    </div>
+
+    <!-- New section that opens on click -->
+    <div id="unit-details" class="table-container bg-white rounded-xl shadow-lg mt-8 p-8 transition-all duration-300 ease-in-out hidden">
+        <h2 id="unit-title" class="text-2xl font-bold text-[#146CFD] mb-2"></h2>
+        <p id="unit-subtitle" class="text-lg text-[#146CFD] mb-4"></p>
+        <p id="unit-description" class="text-sm text-gray-500 mb-6"></p>
+
+        <!-- Syllabus Outcomes Section -->
+        <div class="border-t border-b border-gray-200 py-4">
+            <div id="outcomes-header" class="flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-semibold text-[#146CFD]">Unit Content & Outcomes</h3>
+                <svg id="outcomes-arrow" class="w-6 h-6 text-gray-500 transform transition-transform duration-300 rotate-90" fill="currentColor" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+            </div>
+            <div id="outcomes-content" class="mt-4 hidden"></div>
+        </div>
+        
+        <!-- Lesson Resources Section -->
+        <div class="border-t border-b border-gray-200 py-4">
+            <div id="resources-header" class="flex justify-between items-center cursor-pointer">
+                <h3 class="text-lg font-semibold text-[#146CFD]">Lesson Resources</h3>
+                <svg id="resources-arrow" class="w-6 h-6 text-gray-500 transform transition-transform duration-300 rotate-90" fill="currentColor" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+            </div>
+            <div id="resources-content" class="mt-4 hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        const scheduleBody = document.getElementById('schedule-body');
+        const unitDetails = document.getElementById('unit-details');
+        const unitTitle = document.getElementById('unit-title');
+        const unitSubtitle = document.getElementById('unit-subtitle');
+        const unitDescription = document.getElementById('unit-description');
+        const outcomesContent = document.getElementById('outcomes-content');
+        const resourcesContent = document.getElementById('resources-content');
+        const yearButtonsContainer = document.getElementById('year-buttons');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const printButton = document.getElementById('print-button');
+
+        const scopeAndSequenceData = {
+            'K': {
+                title: 'Mathematics - Kindergarten',
+                terms: [
+                    [
+                        { name: 'Numbers in Our World', weeks: 4 },
+                        { name: 'Sorting & Patterns', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Counting & Subitising', weeks: 4 },
+                        { name: 'Introduction to Shapes', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Comparing Quantities', weeks: 4 },
+                        { name: 'Time & Duration', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Sharing & Groups', weeks: 4 },
+                        { name: 'Data & Chance', weeks: 4 }
+                    ]
+                ]
+            },
+            '1': {
+                title: 'Mathematics - Year 1',
+                terms: [
+                    [
+                        { name: 'Representing Numbers', weeks: 4 },
+                        { name: 'Additive Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: '2D & 3D Shapes', weeks: 4 },
+                        { name: 'Multiplicative Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Non-spatial Measure', weeks: 4 },
+                        { name: 'Data Analysis', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Fractions & Division', weeks: 4 },
+                        { name: 'Position & Direction', weeks: 4 }
+                    ]
+                ]
+            },
+            '2': {
+                title: 'Mathematics - Year 2',
+                terms: [
+                    [
+                        { name: 'Representing Numbers', weeks: 4 },
+                        { name: 'Additive Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: '2D & 3D Shapes', weeks: 4 },
+                        { name: 'Multiplicative Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Geometric Measure', weeks: 4 },
+                        { name: 'Non-spatial Measure', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Data Analysis', weeks: 4 },
+                        { name: 'Fractions & Decimals', weeks: 4 }
+                    ]
+                ]
+            },
+            '3': {
+                title: 'Mathematics - Year 3',
+                terms: [
+                    [
+                        { name: 'Representing Numbers', weeks: 4 },
+                        { name: 'Multiplicative Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Additive Relations', weeks: 4 },
+                        { name: 'Fractions & Decimals', weeks: 4 }
+                    ],
+                    [
+                        { name: '2D & 3D Shapes', weeks: 4 },
+                        { name: 'Non-spatial Measure', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Geometric Measure', weeks: 4 },
+                        { name: 'Data Analysis', weeks: 4 }
+                    ]
+                ]
+            },
+            '4': {
+                title: 'Mathematics - Year 4',
+                terms: [
+                    [
+                        { name: 'Representing Numbers', weeks: 4 },
+                        { name: 'Multiplicative Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Additive Relations', weeks: 4 },
+                        { name: 'Fractions & Decimals', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Data Analysis', weeks: 4 },
+                        { name: 'Geometric Measure', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Non-spatial Measure', weeks: 4 },
+                        { name: 'Chance & Probability', weeks: 4 }
+                    ]
+                ]
+            },
+            '5': {
+                title: 'Mathematics - Year 5',
+                terms: [
+                    [
+                        { name: 'Representing Numbers', weeks: 4 },
+                        { name: 'Multiplicative Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Additive Relations', weeks: 4 },
+                        { name: 'Geometric Measure', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Two-dimensional Spatial Structure', weeks: 4 },
+                        { name: 'Non-spatial Measure', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Data Analysis', weeks: 4 },
+                        { name: 'Chance & Probability', weeks: 4 }
+                    ]
+                ]
+            },
+            '6': {
+                title: 'Mathematics - Year 6',
+                terms: [
+                    [
+                        { name: 'Representing Numbers', weeks: 4 },
+                        { name: 'Multiplicative Relations', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Additive Relations', weeks: 4 },
+                        { name: 'Geometric Measure', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Two-dimensional Spatial Structure', weeks: 4 },
+                        { name: 'Non-spatial Measure', weeks: 4 }
+                    ],
+                    [
+                        { name: 'Data Analysis', weeks: 4 },
+                        { name: 'Chance & Probability', weeks: 4 }
+                    ]
+                ]
+            }
+        };
+
+        const unitDetailsData = {
+            'default': {
+                subtitle: 'Select a unit to view details',
+                outcomes: [],
+                description: '',
+                resources: []
+            },
+            // Kindergarten units
+            'Numbers in Our World': {
+                subtitle: 'Kindergarten | Term 1, Weeks 1-4',
+                description: 'Students will learn to recognise and use number language in a range of everyday contexts. They will instantly name the number of objects within small collections and use the counting sequence of ones flexibly.',
+                outcomes: ['MAO-WM-01, MAE-RWN-01: Representing whole numbers', 'MAO-WM-01, MAE-RWN-02: Representing whole numbers'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            'Sorting & Patterns': {
+                subtitle: 'Kindergarten | Term 1, Weeks 5-8',
+                description: 'Students will identify attributes to sort objects, explore 2D shapes in their environment, and organise objects into simple data displays.',
+                outcomes: ['MAO-WM-01, MAE-2DS-01: Two-dimensional spatial structure', 'MAO-WM-01, MAE-DATA-01: Data'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            'Counting & Subitising': {
+                subtitle: 'Kindergarten | Term 2, Weeks 1-4',
+                description: 'Students will continue to develop number sense by counting and representing numbers. They will also explore combining and separating quantities in different ways.',
+                outcomes: ['MAO-WM-01, MAE-RWN-01: Representing whole numbers', 'MAO-WM-01, MAE-CSQ-01: Combining and separating quantities'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            'Introduction to Shapes': {
+                subtitle: 'Kindergarten | Term 2, Weeks 5-8',
+                description: 'Students will explore and describe familiar 2D shapes and 3D objects, and use language to describe their features. They will also be introduced to comparing volumes.',
+                outcomes: ['MAO-WM-01, MAE-2DS-01: Two-dimensional spatial structure', 'MAO-WM-01, MAE-3DS-01: Three-dimensional spatial structure'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            'Comparing Quantities': {
+                subtitle: 'Kindergarten | Term 3, Weeks 1-4',
+                description: 'Students will compare and order quantities, identify part-whole relationships in numbers up to 10, and model additive relations. They will also apply counting to solve simple problems.',
+                outcomes: ['MAO-WM-01, MAE-CSQ-01: Combining and separating quantities', 'MAO-WM-01, MAE-RWN-01: Representing whole numbers'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            'Time & Duration': {
+                subtitle: 'Kindergarten | Term 3, Weeks 5-8',
+                description: 'Students will compare and order the duration of events using the language of time. They will also be introduced to describing position and giving simple directions.',
+                outcomes: ['MAO-WM-01, MAE-NSM-02: Non-spatial measure', 'MAO-WM-01, MAE-POS-01: Position'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            'Sharing & Groups': {
+                subtitle: 'Kindergarten | Term 4, Weeks 1-4',
+                description: 'Students will investigate and form equal groups by sharing. They will model additive relations and identify part-whole relationships in numbers.',
+                outcomes: ['MAO-WM-01, MAE-FG-02: Forming groups', 'MAO-WM-01, MAE-CSQ-01: Combining and separating quantities'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            'Data & Chance': {
+                subtitle: 'Kindergarten | Term 4, Weeks 5-8',
+                description: 'Students will collect information, organise objects into data displays, and discuss possible outcomes of activities using chance language.',
+                outcomes: ['MAO-WM-01, MAE-DATA-01: Data', 'MAO-WM-01, MAE-DATA-02: Chance'],
+                resources: [{name: 'mathematics-es1-sample-scope-and-sequence.xlsx - Early Stage 1', url: './mathematics-es1-sample-scope-and-sequence.xlsx'}]
+            },
+            // Year 1 units
+            'Representing Numbers': {
+                subtitle: 'Year 1 | Term 1, Weeks 1-4',
+                description: 'Students will develop number sense by using counting sequences with two-digit numbers and beyond, and representing numbers on a number line.',
+                outcomes: ['MAO-WM-01, MA1-RWN-01: Representing whole numbers A', 'MAO-WM-01, MA1-RWN-02: Representing whole numbers A'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            'Additive Relations': {
+                subtitle: 'Year 1 | Term 1, Weeks 5-8',
+                description: 'Students will use advanced count-by-one strategies to solve addition and subtraction problems, and recognise number bonds up to ten.',
+                outcomes: ['MAO-WM-01, MA1-CSQ-01: Combining and separating quantities A'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            '2D & 3D Shapes': {
+                subtitle: 'Year 1 | Term 2, Weeks 1-4',
+                description: 'Students will explore and describe the features of 2D shapes and 3D objects. They will also create symmetrical patterns and shapes.',
+                outcomes: ['MAO-WM-01, MA1-2DS-01: Two-dimensional spatial structure', 'MAO-WM-01, MA1-3DS-01: Three-dimensional spatial structure'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            'Multiplicative Relations': {
+                subtitle: 'Year 1 | Term 2, Weeks 5-8',
+                description: 'Students will be introduced to multiplication and division, using equal groups and arrays to represent these concepts.',
+                outcomes: ['MAO-WM-01, MA1-FG-01: Forming groups A'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            'Non-spatial Measure': {
+                subtitle: 'Year 1 | Term 3, Weeks 1-4',
+                description: 'Students will measure and compare the duration of events using informal and formal units. They will also explore volume, capacity, and mass.',
+                outcomes: ['MAO-WM-01, MA1-NSM-01: Non-spatial measure'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            'Data Analysis': {
+                subtitle: 'Year 1 | Term 3, Weeks 5-8',
+                description: 'Students will collect and represent data in a range of displays, and interpret information to draw conclusions and solve problems.',
+                outcomes: ['MAO-WM-01, MA1-DATA-01: Data A', 'MAO-WM-01, MA1-DATA-02: Chance A'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            'Fractions & Division': {
+                subtitle: 'Year 1 | Term 4, Weeks 1-4',
+                description: 'Students will be introduced to fractions and division by sharing collections into equal parts and representing problems.',
+                outcomes: ['MAO-WM-01, MA1-FG-01: Forming groups B', 'MAO-WM-01, MA1-FRC-01: Fractions'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            'Position & Direction': {
+                subtitle: 'Year 1 | Term 4, Weeks 5-8',
+                description: 'Students will learn to give and follow directions, and use their knowledge of position to solve simple problems in their environment.',
+                outcomes: ['MAO-WM-01, MA1-GM-01: Geometric measure'],
+                resources: [{name: 'mathematics-s1-scope-and-sequence.xlsx - Stage 1', url: './mathematics-s1-scope-and-sequence.xlsx'}]
+            },
+            // Year 2 units
+            'Representing Numbers': {
+                subtitle: 'Year 2 | Term 1, Weeks 1-4',
+                description: 'Students will extend their knowledge of place value to hundreds and thousands, and apply it to partition and regroup numbers.',
+                outcomes: ['MAO-WM-01, MA2-RN-01: Representing numbers using place value A', 'MAO-WM-01, MA2-RN-02: Representing numbers using place value A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Additive Relations': {
+                subtitle: 'Year 2 | Term 1, Weeks 5-8',
+                description: 'Students will apply flexible strategies to solve addition and subtraction problems of up to 3 digits and recognise the connection between these operations.',
+                outcomes: ['MAO-WM-01, MA2-AR-01: Additive relations A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            '2D & 3D Shapes': {
+                subtitle: 'Year 2 | Term 2, Weeks 1-4',
+                description: 'Students will explore the features of 2D shapes and 3D objects, and learn to create symmetrical patterns and shapes.',
+                outcomes: ['MAO-WM-01, MA2-2DS-01: Two-dimensional spatial structure A', 'MAO-WM-01, MA2-3DS-01: Three-dimensional spatial structure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Multiplicative Relations': {
+                subtitle: 'Year 2 | Term 2, Weeks 5-8',
+                description: 'Students will extend their understanding of multiplication and division, using arrays and number properties to solve problems.',
+                outcomes: ['MAO-WM-01, MA2-MR-01: Multiplicative relations A', 'MAO-WM-01, MA2-MR-02: Multiplicative relations A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Geometric Measure': {
+                subtitle: 'Year 2 | Term 3, Weeks 1-4',
+                description: 'Students will explore angles as measures of turn and compare them to a right angle. They will also locate positions on grid maps.',
+                outcomes: ['MAO-WM-01, MA2-GM-01: Geometric measure A', 'MAO-WM-01, MA2-GM-03: Geometric measure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Non-spatial Measure': {
+                subtitle: 'Year 2 | Term 3, Weeks 5-8',
+                description: 'Students will learn to represent and read time on analog and digital displays and use am and pm notation.',
+                outcomes: ['MAO-WM-01, MA2-NSM-02: Non-spatial measure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Data Analysis': {
+                subtitle: 'Year 2 | Term 4, Weeks 1-4',
+                description: 'Students will collect, represent and interpret data to answer questions and solve problems, using simple data displays.',
+                outcomes: ['MAO-WM-01, MA2-DATA-01: Data A', 'MAO-WM-01, MA2-DATA-02: Chance A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Fractions & Decimals': {
+                subtitle: 'Year 2 | Term 4, Weeks 5-8',
+                description: 'Students will be introduced to fractions and decimals and make connections between them. They will use their knowledge to solve simple problems.',
+                outcomes: ['MAO-WM-01, MA2-FRC-01: Fractions A', 'MAO-WM-01, MA2-RN-01: Representing numbers using place value B'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            // Year 3 units
+            'Representing Numbers': {
+                subtitle: 'Year 3 | Term 1, Weeks 1-4',
+                description: 'Students will extend their understanding of place value to thousands, applying it to partition and regroup numbers. They will also be introduced to decimals.',
+                outcomes: ['MAO-WM-01, MA2-RN-01: Representing numbers using place value A', 'MAO-WM-01, MA2-RN-02: Representing numbers using place value A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Multiplicative Relations': {
+                subtitle: 'Year 3 | Term 1, Weeks 5-8',
+                description: 'Students will develop their understanding of multiplication and division, using arrays to solve problems and recall multiplication facts.',
+                outcomes: ['MAO-WM-01, MA2-MR-01: Multiplicative relations A', 'MAO-WM-01, MA2-MR-02: Multiplicative relations A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Additive Relations': {
+                subtitle: 'Year 3 | Term 2, Weeks 1-4',
+                description: 'Students will apply flexible strategies to solve addition and subtraction problems of up to 3 digits and recognise the connection between these operations.',
+                outcomes: ['MAO-WM-01, MA2-AR-01: Additive relations A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Fractions & Decimals': {
+                subtitle: 'Year 3 | Term 2, Weeks 5-8',
+                description: 'Students will be introduced to fractions and decimals and make connections between them. They will use their knowledge to solve simple problems.',
+                outcomes: ['MAO-WM-01, MA2-FRC-01: Fractions A', 'MAO-WM-01, MA2-RN-01: Representing numbers using place value B'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            '2D & 3D Shapes': {
+                subtitle: 'Year 3 | Term 3, Weeks 1-4',
+                description: 'Students will explore the features of 2D shapes and 3D objects, and learn to create symmetrical patterns and shapes.',
+                outcomes: ['MAO-WM-01, MA2-2DS-01: Two-dimensional spatial structure A', 'MAO-WM-01, MA2-3DS-01: Three-dimensional spatial structure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Non-spatial Measure': {
+                subtitle: 'Year 3 | Term 3, Weeks 5-8',
+                description: 'Students will learn to represent and read time on analog and digital displays and use am and pm notation.',
+                outcomes: ['MAO-WM-01, MA2-NSM-02: Non-spatial measure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Geometric Measure': {
+                subtitle: 'Year 3 | Term 4, Weeks 1-4',
+                description: 'Students will explore angles as measures of turn and compare them to a right angle. They will also locate positions on grid maps.',
+                outcomes: ['MAO-WM-01, MA2-GM-01: Geometric measure A', 'MAO-WM-01, MA2-GM-03: Geometric measure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Data Analysis': {
+                subtitle: 'Year 3 | Term 4, Weeks 5-8',
+                description: 'Students will collect, represent and interpret data to answer questions and solve problems, using simple data displays.',
+                outcomes: ['MAO-WM-01, MA2-DATA-01: Data A', 'MAO-WM-01, MA2-DATA-02: Chance A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            // Year 4 units
+            'Representing Numbers': {
+                subtitle: 'Year 4 | Term 1, Weeks 1-4',
+                description: 'Students will extend their understanding of place value to thousands, applying it to partition and regroup numbers. They will also be introduced to decimals.',
+                outcomes: ['MAO-WM-01, MA2-RN-01: Representing numbers using place value A', 'MAO-WM-01, MA2-RN-02: Representing numbers using place value A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Multiplicative Relations': {
+                subtitle: 'Year 4 | Term 1, Weeks 5-8',
+                description: 'Students will develop their understanding of multiplication and division, using arrays to solve problems and recall multiplication facts.',
+                outcomes: ['MAO-WM-01, MA2-MR-01: Multiplicative relations A', 'MAO-WM-01, MA2-MR-02: Multiplicative relations A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Additive Relations': {
+                subtitle: 'Year 4 | Term 2, Weeks 1-4',
+                description: 'Students will apply flexible strategies to solve addition and subtraction problems of up to 3 digits and recognise the connection between these operations.',
+                outcomes: ['MAO-WM-01, MA2-AR-01: Additive relations A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Fractions & Decimals': {
+                subtitle: 'Year 4 | Term 2, Weeks 5-8',
+                description: 'Students will be introduced to fractions and decimals and make connections between them. They will use their knowledge to solve simple problems.',
+                outcomes: ['MAO-WM-01, MA2-FRC-01: Fractions A', 'MAO-WM-01, MA2-RN-01: Representing numbers using place value B'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Data Analysis': {
+                subtitle: 'Year 4 | Term 3, Weeks 1-4',
+                description: 'Students will collect, represent and interpret data to answer questions and solve problems, using simple data displays.',
+                outcomes: ['MAO-WM-01, MA2-DATA-01: Data A', 'MAO-WM-01, MA2-DATA-02: Chance A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Geometric Measure': {
+                subtitle: 'Year 4 | Term 3, Weeks 5-8',
+                description: 'Students will explore angles as measures of turn and compare them to a right angle. They will also locate positions on grid maps.',
+                outcomes: ['MAO-WM-01, MA2-GM-01: Geometric measure A', 'MAO-WM-01, MA2-GM-03: Geometric measure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Non-spatial Measure': {
+                subtitle: 'Year 4 | Term 4, Weeks 1-4',
+                description: 'Students will learn to represent and read time on analog and digital displays and use am and pm notation.',
+                outcomes: ['MAO-WM-01, MA2-NSM-02: Non-spatial measure A'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            'Chance & Probability': {
+                subtitle: 'Year 4 | Term 4, Weeks 5-8',
+                description: 'Students will apply concepts of chance and probability to everyday events and solve problems related to them.',
+                outcomes: ['MAO-WM-01, MA2-DATA-02: Chance B'],
+                resources: [{name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year A', url: './mathematics-s2-scope-and-sequence.xlsx'}, {name: 'mathematics-s2-scope-and-sequence.xlsx - Stage 2 Year B', url: './mathematics-s2-scope-and-sequence.xlsx'}]
+            },
+            // Year 5 units
+            'Representing Numbers': {
+                subtitle: 'Year 5 | Term 1, Weeks 1-4',
+                description: 'Students will extend their understanding of numbers to the millions, applying place value to partition and regroup numbers up to 1 billion. They will also be introduced to decimals.',
+                outcomes: ['MAO-WM-01, MA3-RN-01: Represents numbers A', 'MAO-WM-01, MA3-RN-02: Represents numbers A'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Multiplicative Relations': {
+                subtitle: 'Year 5 | Term 1, Weeks 5-8',
+                description: 'Students will apply mental and written strategies to multiply and divide 2-, 3-, and 4-digit numbers by one-digit numbers, and use equivalent number sentences.',
+                outcomes: ['MAO-WM-01, MA3-MR-01: Multiplicative relations A', 'MAO-WM-01, MA3-MR-02: Multiplicative relations A'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Additive Relations': {
+                subtitle: 'Year 5 | Term 2, Weeks 1-4',
+                description: 'Students will choose and use efficient mental and written strategies to solve addition and subtraction problems, and recognise the connection between them.',
+                outcomes: ['MAO-WM-01, MA3-AR-01: Additive relations A'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Geometric Measure': {
+                subtitle: 'Year 5 | Term 2, Weeks 5-8',
+                description: 'Students will estimate, measure, and compare angles using degrees, and use a protractor to identify types of angles.',
+                outcomes: ['MAO-WM-01, MA3-GM-03: Geometric measure A'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Two-dimensional Spatial Structure': {
+                subtitle: 'Year 5 | Term 3, Weeks 1-4',
+                description: 'Students will classify and describe the properties of 2D shapes, and create symmetrical patterns.',
+                outcomes: ['MAO-WM-01, MA3-2DS-01: Two-dimensional spatial structure A', 'MAO-WM-01, MA3-2DS-02: Two-dimensional spatial structure B'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Non-spatial Measure': {
+                subtitle: 'Year 5 | Term 3, Weeks 5-8',
+                description: 'Students will solve problems involving duration, using both 12- and 24-hour time.',
+                outcomes: ['MAO-WM-01, MA3-NSM-02: Non-spatial measure B'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Data Analysis': {
+                subtitle: 'Year 5 | Term 4, Weeks 1-4',
+                description: 'Students will collect, represent, and interpret a variety of data displays, and use data to draw conclusions and make decisions.',
+                outcomes: ['MAO-WM-01, MA3-DAT-01: Data', 'MAO-WM-01, MA3-DAT-02: Data'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Chance & Probability': {
+                subtitle: 'Year 5 | Term 4, Weeks 5-8',
+                description: 'Students will apply concepts of chance and probability to everyday events and use language to describe outcomes.',
+                outcomes: ['MAO-WM-01, MA3-PRO-01: Chance A'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            // Year 6 units
+            'Representing Numbers': {
+                subtitle: 'Year 6 | Term 1, Weeks 1-4',
+                description: 'Students will recognise, represent, and order numbers in the millions. They will also apply their understanding of place value to decimals and percentages.',
+                outcomes: ['MAO-WM-01, MA3-RN-01: Represents numbers A', 'MAO-WM-01, MA3-RN-02: Represents numbers A', 'MAO-WM-01, MA3-RN-03: Represents numbers B'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Multiplicative Relations': {
+                subtitle: 'Year 6 | Term 1, Weeks 5-8',
+                description: 'Students will select and apply strategies to multiply and divide multi-digit numbers, including decimals, and solve problems using the order of operations.',
+                outcomes: ['MAO-WM-01, MA3-MR-01: Multiplicative relations A', 'MAO-WM-01, MA3-MR-02: Multiplicative relations B'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Additive Relations': {
+                subtitle: 'Year 6 | Term 2, Weeks 1-4',
+                description: 'Students will choose and use efficient mental and written strategies to solve addition and subtraction problems with decimals.',
+                outcomes: ['MAO-WM-01, MA3-AR-01: Additive relations B'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Geometric Measure': {
+                subtitle: 'Year 6 | Term 2, Weeks 5-8',
+                description: 'Students will use protractors to measure and identify different types of angles. They will also explore the Cartesian coordinate system to locate positions on a plane.',
+                outcomes: ['MAO-WM-01, MA3-GM-03: Geometric measure A', 'MAO-WM-01, MA3-GM-01: Geometric measure A'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Two-dimensional Spatial Structure': {
+                subtitle: 'Year 6 | Term 3, Weeks 1-4',
+                description: 'Students will classify 2D shapes and describe their properties. They will also explore translations, reflections, and rotations of shapes.',
+                outcomes: ['MAO-WM-01, MA3-2DS-01: Two-dimensional spatial structure A', 'MAO-WM-01, MA3-2DS-02: Two-dimensional spatial structure B'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Non-spatial Measure': {
+                subtitle: 'Year 6 | Term 3, Weeks 5-8',
+                description: 'Students will solve problems involving duration using 12- and 24-hour time, and convert between different units of measurement.',
+                outcomes: ['MAO-WM-01, MA3-NSM-02: Non-spatial measure B'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Data Analysis': {
+                subtitle: 'Year 6 | Term 4, Weeks 1-4',
+                description: 'Students will collect, represent, and interpret data from a variety of displays, and use data to draw conclusions and make decisions.',
+                outcomes: ['MAO-WM-01, MA3-DAT-01: Data', 'MAO-WM-01, MA3-DAT-02: Data'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Chance & Probability': {
+                subtitle: 'Year 6 | Term 4, Weeks 5-8',
+                description: 'Students will apply concepts of chance and probability to everyday events and conduct chance experiments to compare outcomes.',
+                outcomes: ['MAO-WM-01, MA3-PRO-01: Chance A'],
+                resources: [{name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year A', url: './mathematics-s3-scope-and-sequence.xlsx'}, {name: 'mathematics-s3-scope-and-sequence.xlsx - Stage 3 Year B', url: './mathematics-s3-scope-and-sequence.xlsx'}]
+            },
+            'Consolidation': {
+                subtitle: 'All Terms, Weeks 9-10',
+                description: 'This block is dedicated to consolidating learning from the preceding units. It can be used for revision, integrated projects, or student-led activities to deepen understanding.',
+                outcomes: []
+            }
+        };
+
+        function renderResources(container, resources) {
+            container.innerHTML = '';
+            if (!resources || resources.length === 0) {
+                container.innerHTML = '<p class="text-sm text-gray-500">No resources available for this unit.</p>';
+                return;
+            }
+            resources.forEach(resource => {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center py-2 text-[#D7153A] hover:text-[#002664] transition-colors duration-200';
+                
+                const isLink = typeof resource === 'object' && resource.url;
+                const resourceName = isLink ? resource.name : resource;
+                const resourceUrl = isLink ? resource.url : '#';
+                
+                let html = '';
+                if (isLink) {
+                    html = `
+                        <a href="${resourceUrl}" class="font-medium" target="_blank" rel="noopener noreferrer">${resourceName}</a>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m-9 6h6a2 2 0 002-2v-6a2 2 0 00-2-2h-6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                        </div>
+                    `;
+                } else {
+                    html = `
+                        <span class="font-medium">${resourceName}</span>
+                    `;
+                }
+                
+                item.innerHTML = html;
+                container.appendChild(item);
+            });
+        }
+
+        const toggleSection = (headerId, contentId, arrowId) => {
+            const header = document.getElementById(headerId);
+            const content = document.getElementById(contentId);
+            const arrow = document.getElementById(arrowId);
+
+            if (header && content && arrow) {
+                header.addEventListener('click', () => {
+                    content.classList.toggle('hidden');
+                    arrow.classList.toggle('rotate-90');
+                    arrow.classList.toggle('rotate-0');
+                });
+            }
+        };
+
+        function renderSchedule(year) {
+            const data = scopeAndSequenceData[year];
+            if (!data) return;
+
+            scheduleBody.innerHTML = '';
+            
+            data.terms.forEach((term, termIndex) => {
+                const termRow = document.createElement('div');
+                termRow.className = 'grid grid-cols-11 text-sm';
+                
+                const termHeader = document.createElement('div');
+                termHeader.className = 'col-span-1 flex items-center justify-center p-4 font-medium bg-[#002664] text-white rotated-text border-r-2 border-b-2 border-white';
+                termHeader.textContent = `Term ${termIndex + 1}`;
+                termRow.appendChild(termHeader);
+
+                const unitsContainer = document.createElement('div');
+                unitsContainer.className = 'col-span-10 grid grid-cols-10';
+                let totalWeeks = 0;
+
+                term.forEach(unit => {
+                    const unitCell = document.createElement('div');
+                    let colSpan = unit.weeks;
+                    const unitData = unitDetailsData[unit.name] || unitDetailsData['default'];
+                    const outcomesHtml = unitData.outcomes.length > 0 ? `Outcomes: ${unitData.outcomes.join(', ')}` : 'No outcomes listed.';
+
+                    unitCell.className = `col-span-${colSpan} py-4 px-3 bg-white text-gray-800 border-r border-b border-gray-200 table-cell flex-col`;
+                    unitCell.innerHTML = `
+                        <div class="unit-title font-medium text-lg mb-2 text-[#002664]">${unit.name}</div>
+                        <div class="unit-outcomes text-xs font-semibold text-[#D7153A] mb-1">${outcomesHtml}</div>
+                        <div class="unit-description text-sm">${unitData.description}</div>
+                    `;
+                    unitCell.addEventListener('click', () => showUnitDetails(unit.name));
+                    unitsContainer.appendChild(unitCell);
+                    totalWeeks += colSpan;
+                });
+                
+                const consolidationCell = document.createElement('div');
+                consolidationCell.className = `col-span-${10 - totalWeeks} flex flex-col items-center justify-center bg-[#CBDEFD] text-gray-800 border-l border-b border-gray-200`;
+                consolidationCell.innerHTML = `
+                    <span class="font-medium">Consolidation</span>
+                    <span class="text-xs">
+                        <svg class="w-4 h-4 inline-block ml-1 transform rotate-90" fill="currentColor" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                    </span>
+                `;
+                unitsContainer.appendChild(consolidationCell);
+                
+                termRow.appendChild(unitsContainer);
+                scheduleBody.appendChild(termRow);
+            });
+        }
+        
+        function showUnitDetails(unitName) {
+            const data = unitDetailsData[unitName] || unitDetailsData['default'];
+            
+            unitTitle.textContent = unitName;
+            unitSubtitle.textContent = data.subtitle;
+            unitDescription.textContent = data.description;
+            
+            const outcomesHtml = data.outcomes.map(o => `<li>${o}</li>`).join('');
+            outcomesContent.innerHTML = `<ul class="list-disc list-inside text-sm text-gray-700">${outcomesHtml}</ul>`;
+
+            const allResources = [...data.resources];
+            resourcesContent.innerHTML = '';
+            if (allResources.length === 0) {
+                resourcesContent.innerHTML = '<p class="text-sm text-gray-500">No resources available for this unit.</p>';
+            } else {
+                renderResources(resourcesContent, allResources);
+            }
+
+            unitDetails.classList.remove('hidden');
+            unitDetails.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function renderResources(container, resources) {
+            container.innerHTML = '';
+            if (!resources || resources.length === 0) {
+                container.innerHTML = '<p class="text-sm text-gray-500">No resources available for this unit.</p>';
+                return;
+            }
+            resources.forEach(resource => {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center py-2 text-[#D7153A] hover:text-[#002664] transition-colors duration-200';
+                
+                const isLink = typeof resource === 'object' && resource.url;
+                const resourceName = isLink ? resource.name : resource;
+                const resourceUrl = isLink ? resource.url : '#';
+                
+                let html = '';
+                if (isLink) {
+                    html = `
+                        <a href="${resourceUrl}" class="font-medium" target="_blank" rel="noopener noreferrer">${resourceName}</a>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m-9 6h6a2 2 0 002-2v-6a2 2 0 00-2-2h-6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                        </div>
+                    `;
+                } else {
+                    html = `
+                        <span class="font-medium">${resourceName}</span>
+                    `;
+                }
+                
+                item.innerHTML = html;
+                container.appendChild(item);
+            });
+        }
+        
+        function printSchedule() {
+            window.print();
+        }
+
+        function setupYearButtons(years) {
+            yearButtonsContainer.innerHTML = '';
+            years.forEach((year, index) => {
+                const button = document.createElement('button');
+                button.className = `select-button ${index === 0 ? 'active' : ''}`;
+                button.dataset.year = year;
+                button.textContent = year === 'K' ? 'Kindergarten' : `Year ${year}`;
+                yearButtonsContainer.appendChild(button);
+            });
+            const newYearButtons = yearButtonsContainer.querySelectorAll('.select-button');
+            newYearButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    newYearButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    renderSchedule(button.dataset.year);
+                    printButton.classList.remove('hidden');
+                });
+            });
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                if (button.dataset.tab === 'k-2') {
+                    setupYearButtons(['K', '1', '2']);
+                    renderSchedule('K');
+                } else {
+                    setupYearButtons(['3', '4', '5', '6']);
+                    renderSchedule('3');
+                }
+                printButton.classList.remove('hidden');
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            setupYearButtons(['K', '1', '2']);
+            renderSchedule('K');
+            
+            const allToggleElements = [
+                'outcomes-header', 'outcomes-content', 'outcomes-arrow',
+                'resources-header', 'resources-content', 'resources-arrow'
+            ];
+            
+            allToggleElements.forEach(id => {
+                if (id.includes('-header')) {
+                    const headerId = id;
+                    const contentId = id.replace('-header', '-content');
+                    const arrowId = id.replace('-header', '-arrow');
+                    toggleSection(headerId, contentId, arrowId);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
